@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX;
+        var ballY;
+        var ballSpeedX = 6; //sets the speed of the ball
+        var ballSpeedY = 6;
+        var paddleHeight = 30; //sets the height of the ball which gives the shape
+
+        function setup() {
+            createCanvas(800, 600);
+            noCursor(); //the curser will be invisible once it touches the screen
+            ballX = width / 2; //sets the width of the ball which also helps give the shape
+            ballY = height / 2; //sets the height of the ball 
+            
+        } 
+
+        function draw() {
+            moveBall(); //function for the ball to move around the screen
+            background(205,205,255); //sets the background color
+            checkCollide();
+            fill(255,205,205); //fills the color for the ball
+            drawBall(); //makes sure there is an ellipse on the screen
+            fill(255,150,255); //fills color for rectangle
+            drawPaddle(); //sets the rectangle on the screen
+            
+            
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX; //constrains the ball to bounce around until it misses the paddle
+            ballY = ballY + ballSpeedY;
+             
+
+            console.log("ballSpeedX: " + ballSpeedX + 
+                               ", ballSpeedY: " + ballSpeedY);
+        }
+
+        function checkCollide() { //so the ball could touch the paddle and bounce off of it
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;
+            }
+            if (ballY > height - paddleHeight) {
+                if (ballX > mouseX && ballX < mouseX + 200) {
+                    ballSpeedY = ballSpeedY * -1;
+                }
+                else {
+                    text("GAME OVER!", width / 2, height / 2); //but if the ball doesn't bounce off the paddle, the screen will say game over
+                    noLoop();
+                }
+            }
+        }
+
+        function drawBall() { //this was the same functions to draw a second ball
+            noStroke();
+            fill(random(500),random(400),random(300)); //sets the balls to random colors
+            ellipse(ballX, ballY, 20, 20);
+            ellipse(ballY, ballX, 20, 20);//
+        }
+
+        function drawPaddle() {
+            stroke(0); //no stroke color for ball
+            strokeWeight(4);
+            rect(mouseX, height - paddleHeight - 4, 200, paddleHeight); //size of ball
+            
+        }
+        function mousePressed() { //when mouse is clicked the ball will go back in reverse depending on the position it's in
+        ballSpeedX = 5;
+        ballSpeedY = 5;
+        
+        } 
+        
+            
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
